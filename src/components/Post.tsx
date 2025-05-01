@@ -3,17 +3,22 @@
 import { useState } from 'react';
 
 interface PostProps {
-  id: string;
-  content: string;
-  author: string;
-  likes: number;
-  comments: number;
-  timestamp: string;
+  post: {
+    id: number;
+    content: string;
+    author: {
+      name: string;
+      avatar: string;
+    };
+    likes: number;
+    comments: number;
+    timestamp: string;
+  };
 }
 
-export default function Post({ id, content, author, likes, comments, timestamp }: PostProps) {
+export default function Post({ post }: PostProps) {
   const [isLiked, setIsLiked] = useState(false);
-  const [currentLikes, setCurrentLikes] = useState(likes);
+  const [currentLikes, setCurrentLikes] = useState(post.likes);
 
   const handleLike = () => {
     setIsLiked(!isLiked);
@@ -23,16 +28,20 @@ export default function Post({ id, content, author, likes, comments, timestamp }
   return (
     <div className="bg-[#1a1a1a] rounded-lg border border-[#2a2a2a] p-6 mb-4">
       <div className="flex items-center mb-4">
-        <div className="w-10 h-10 rounded-full bg-[#2a2a2a] flex items-center justify-center border-2 border-[#00ff9d]">
-          <span className="text-[#00ff9d] font-bold">{author.charAt(0)}</span>
+        <div className="w-10 h-10 rounded-full bg-[#2a2a2a] overflow-hidden">
+          <img
+            src={post.author.avatar}
+            alt={post.author.name}
+            className="w-full h-full object-cover"
+          />
         </div>
         <div className="ml-3">
-          <p className="font-semibold text-[#00ff9d]">{author}</p>
-          <p className="text-gray-400 text-sm">{timestamp}</p>
+          <p className="font-semibold text-[#00ff9d]">{post.author.name}</p>
+          <p className="text-gray-400 text-sm">{post.timestamp}</p>
         </div>
       </div>
       
-      <p className="text-gray-200 mb-4">{content}</p>
+      <p className="text-gray-200 mb-4">{post.content}</p>
       
       <div className="flex items-center space-x-4 text-gray-400">
         <button
@@ -71,7 +80,7 @@ export default function Post({ id, content, author, likes, comments, timestamp }
               d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
             />
           </svg>
-          <span>{comments}</span>
+          <span>{post.comments}</span>
         </button>
       </div>
     </div>

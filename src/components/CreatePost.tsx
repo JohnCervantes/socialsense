@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-export default function CreatePost() {
+export default function CreatePost({setPosts, posts}: {setPosts: (posts: any[]) => void, posts: any[]}) {
   const [content, setContent] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -10,6 +10,17 @@ export default function CreatePost() {
     // TODO: Implement post creation logic
     console.log('Creating post:', content);
     setContent('');
+    setPosts([{
+      id: posts.length + 1,
+      content: content,
+      author: {
+        name: 'John Doe',
+        avatar: 'https://i.pravatar.cc/150?img=1',
+      },
+      timestamp: "just now",
+      likes: 0,
+      comments: 0,
+    }, ...posts]);
   };
 
   return (
